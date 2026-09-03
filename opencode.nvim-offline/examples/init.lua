@@ -1,6 +1,7 @@
--- Example config for opencode.nvim (offline packpath install).
+-- Example config for opencode.nvim (packpath install, no lazy spec).
 -- Copied to ~/.config/nvim/plugin/opencode-keymaps.lua when using:
 --   ./install.sh --with-keymaps
+-- If you use lazy.nvim, prefer examples/lazy.lua instead of this file.
 
 ---@type opencode.Opts
 vim.g.opencode_opts = {

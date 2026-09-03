@@ -45,7 +45,27 @@ opencode.nvim-offline/
 
 内网若还没有 `opencode` CLI，需要另外准备其安装包（与本 Neovim 插件无关）。
 
-## 安装（推荐：原生 packpath）
+## 和 lazy.nvim 一起用会不会冲突？
+
+**其他插件继续用 lazy、只把 opencode.nvim 用本包安装：可以。** Neovim 允许 `pack/*/start` 与 lazy.nvim 并存，lazy 自己通常也是装在 packpath 里的。
+
+**不要让同一份插件被加载两次。** 有问题的是下面这种组合：
+
+1. `./install.sh` 把插件放到 `pack/offline/start/`（启动时自动 `source plugin/*.lua`）
+2. 同时又在 `lazy.setup()` 里写了 `opencode.nvim`（即使 `dir` 指向同一目录）
+
+结果是 autocmd / 事件处理跑两遍（权限弹窗、buffer 重载等）。
+
+| 你的情况 | 应该怎么做 |
+| --- | --- |
+| 现有配置用 lazy.nvim | `./install.sh --for-lazy`，只用 `examples/lazy.lua` 的 spec |
+| 不用插件管理器 | `./install.sh`（默认 packpath），不要再加入 lazy |
+| lazy 里已经有 snacks.nvim | 不要加 `--with-snacks`，沿用现有 spec |
+| 曾经默认安装过，改改走 lazy | 先 `./uninstall.sh`，再 `--for-lazy` |
+
+`--for-lazy` 装到 `~/.local/share/nvim/offline-plugins/`，**不在** `pack/*/start`，也**不在** lazy 的 `~/.local/share/nvim/lazy/`（避免 `:Lazy clean` 误删）。
+
+## 安装
 
 在**有网机器**拷贝整个 `opencode.nvim-offline/` 目录（或把它打成一个 tar）到 U 盘 / 内网共享，然后在**无网机器**执行：
 
@@ -54,21 +74,33 @@ opencode.nvim-offline/
 # tar -czf opencode.nvim-offline-v1.0.0.tar.gz opencode.nvim-offline
 
 chmod +x install.sh uninstall.sh
+
+# 已有 lazy.nvim（推荐）
+./install.sh --for-lazy
+
+# 不用插件管理器
 ./install.sh
 ```
 
-默认安装位置：
+默认 packpath 位置（仅 `./install.sh`）：
 
 ```
 ~/.local/share/nvim/site/pack/offline/start/opencode.nvim
 ```
 
-Neovim 会自动加载 `pack/*/start/*`，**不需要** lazy.nvim / packer。
+lazy 专用位置（`./install.sh --for-lazy`）：
+
+```
+~/.local/share/nvim/offline-plugins/opencode.nvim
+```
 
 常用选项：
 
 ```bash
-# 同时安装 snacks.nvim，并写入示例快捷键
+# lazy：插件 + 可选 snacks（若 lazy 里还没有 snacks）
+./install.sh --for-lazy --with-snacks
+
+# packpath：同时安装 snacks.nvim，并写入示例快捷键
 ./install.sh --with-snacks --with-keymaps
 
 # 安装到自定义 packpath 前缀
@@ -129,17 +161,21 @@ require("snacks").setup({
 
 ### lazy.nvim
 
-先执行 `./install.sh`，再把 `examples/lazy.lua` 里的 spec 加入 lazy 配置，核心是用 `dir =` 指向本地目录，避免访问 GitHub：
+```bash
+./install.sh --for-lazy
+```
+
+把 `examples/lazy.lua` 加入 lazy 配置（或 `lua/plugins/`）。核心是 `dir =` 指向本地目录，避免访问 GitHub：
 
 ```lua
 {
   "nickjvandyke/opencode.nvim",
-  dir = vim.fn.stdpath("data") .. "/site/pack/offline/start/opencode.nvim",
+  dir = vim.fn.stdpath("data") .. "/offline-plugins/opencode.nvim",
   version = false,
 }
 ```
 
-也可以把 `vendor/opencode.nvim` 拷到任意路径，把 `dir` 改成该路径。
+也可以把 `vendor/opencode.nvim` 拷到任意路径，把 `dir` 改成该路径。不要再执行默认的 `./install.sh`。
 
 ### 仅解压 tar.gz
 
@@ -178,7 +214,7 @@ sha256sum -c checksums.sha256
 ./uninstall.sh
 ```
 
-会删除 packpath 下的 `opencode.nvim`、`snacks.nvim`，以及 `--with-keymaps` 写入的 keymap 文件。
+会删除 packpath、`--for-lazy` 目录下的 `opencode.nvim` / `snacks.nvim`，以及 `--with-keymaps` 写入的 keymap 文件。
 
 ## 运行时注意
 
