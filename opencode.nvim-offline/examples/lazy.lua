@@ -1,11 +1,16 @@
--- lazy.nvim snippet for an already-extracted offline copy.
--- Point `dir` at vendor/opencode.nvim from this package (or the packpath install).
+-- lazy.nvim spec for the offline copy.
+--
+-- Use AFTER: ./install.sh --for-lazy
+-- Do NOT also install into pack/*/start (./install.sh with no flags),
+-- or Neovim will load the plugin twice (duplicate autocmds / event handlers).
+--
+-- Drop this file into lua/plugins/ or merge the table into lazy.setup({...}).
 
 return {
   {
     "nickjvandyke/opencode.nvim",
-    -- Local directory: no git clone / no network
-    dir = vim.fn.stdpath("data") .. "/site/pack/offline/start/opencode.nvim",
+    -- Local tree: lazy will not git-clone GitHub.
+    dir = vim.fn.stdpath("data") .. "/offline-plugins/opencode.nvim",
     version = false,
     config = function()
       ---@type opencode.Opts
@@ -21,10 +26,11 @@ return {
     end,
   },
 
-  -- Optional. Only if you installed snacks via ./install.sh --with-snacks
+  -- Only if you ran: ./install.sh --for-lazy --with-snacks
+  -- Skip this block if snacks.nvim is already in lazy.setup() from another spec.
   -- {
   --   "folke/snacks.nvim",
-  --   dir = vim.fn.stdpath("data") .. "/site/pack/offline/start/snacks.nvim",
+  --   dir = vim.fn.stdpath("data") .. "/offline-plugins/snacks.nvim",
   --   version = false,
   --   opts = {
   --     input = { enabled = true },
