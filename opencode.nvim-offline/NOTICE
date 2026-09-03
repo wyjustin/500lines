@@ -1,0 +1,19 @@
+Third-party notices for the opencode.nvim offline package
+=========================================================
+
+This directory redistributes unmodified (or test-stripped) snapshots of
+open-source Neovim plugins so they can be installed without GitHub access.
+All copyright remains with the original authors.
+
+1) opencode.nvim
+   https://github.com/nickjvandyke/opencode.nvim
+   Copyright (c) 2025 Nick van Dyke
+   License: MIT
+   Full text: vendor/opencode.nvim/LICENSE
+
+2) snacks.nvim (optional)
+   https://github.com/folke/snacks.nvim
+   License: Apache License 2.0
+   Full text: inside dist/snacks.nvim-optional.tar.gz (LICENSE)
+   The copy in this package omits the upstream tests/ tree to reduce size;
+   Lua runtime, plugin/, queries/, and doc/ files are unchanged.

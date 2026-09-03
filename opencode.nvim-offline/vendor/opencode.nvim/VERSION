@@ -1,0 +1,6 @@
+name: opencode.nvim
+upstream: https://github.com/nickjvandyke/opencode.nvim
+version: v1.0.0
+commit: 4576b372034495b8868e6cbe878e85c717998867
+released: 2026-08-20
+license: MIT

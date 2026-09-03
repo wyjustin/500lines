@@ -1,0 +1,37 @@
+opencode.nvim 离线安装包清单
+================================
+
+Package:     opencode.nvim-offline
+Built:       2026-09-03
+Purpose:     Air-gapped / intranet install of opencode.nvim
+
+Upstream plugin
+---------------
+Name:        opencode.nvim
+URL:         https://github.com/nickjvandyke/opencode.nvim
+Version:     v1.0.0
+Commit:      4576b372034495b8868e6cbe878e85c717998867
+Date:        2026-08-20
+License:     MIT
+Contents:    vendor/opencode.nvim
+Archive:     dist/opencode.nvim-v1.0.0.tar.gz
+Git bundle:  dist/opencode.nvim-v1.0.0.gitbundle  (all branches + tags)
+
+Optional UI enhancement
+-----------------------
+Name:        snacks.nvim
+URL:         https://github.com/folke/snacks.nvim
+Version:     2.31.0
+Commit:      882c996cf28183f4d63640de0b4c02ec886d01f2
+License:     Apache-2.0
+Note:        tests/ and .github/ omitted; runtime files only
+Archive:     dist/snacks.nvim-optional.tar.gz
+
+Not bundled (install separately on the target host)
+---------------------------------------------------
+- Neovim
+- opencode CLI (>= 1.17)  https://opencode.ai/
+- curl
+- pgrep, lsof (Unix process discovery)
+
+Checksums: dist/checksums.sha256
