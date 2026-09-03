@@ -2,8 +2,10 @@
 # Remove files installed by install.sh.
 set -euo pipefail
 
-PREFIX="${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site"
+NVIM_DATA="${XDG_DATA_HOME:-$HOME/.local/share}/nvim"
+PREFIX="$NVIM_DATA/site"
 PACK_NAME="offline"
+LAZY_ROOT="$NVIM_DATA/offline-plugins"
 NVIM_CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 DRY_RUN=0
 
@@ -11,9 +13,12 @@ usage() {
   cat <<'EOF'
 Usage: ./uninstall.sh [options]
 
+Removes both packpath (./install.sh) and lazy (./install.sh --for-lazy) copies.
+
 Options:
   --prefix DIR       Same prefix used during install
   --pack-name NAME   Same pack name used during install (default: offline)
+  --lazy-root DIR    Same --lazy-root used with --for-lazy
   --dry-run          Print actions without deleting files
   -h, --help         Show this help
 EOF
@@ -23,6 +28,7 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     --prefix) PREFIX="$2"; shift 2 ;;
     --pack-name) PACK_NAME="$2"; shift 2 ;;
+    --lazy-root) LAZY_ROOT="$2"; shift 2 ;;
     --dry-run) DRY_RUN=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *)
@@ -50,6 +56,8 @@ remove_path() {
 START="$PREFIX/pack/$PACK_NAME/start"
 remove_path "$START/opencode.nvim"
 remove_path "$START/snacks.nvim"
+remove_path "$LAZY_ROOT/opencode.nvim"
+remove_path "$LAZY_ROOT/snacks.nvim"
 remove_path "$NVIM_CONFIG_DIR/plugin/opencode-keymaps.lua"
 
 if [[ -d "$START" ]] && [[ -z "$(ls -A "$START" 2>/dev/null || true)" ]]; then
@@ -58,6 +66,9 @@ fi
 PACK_DIR="$PREFIX/pack/$PACK_NAME"
 if [[ -d "$PACK_DIR" ]] && [[ -z "$(ls -A "$PACK_DIR" 2>/dev/null || true)" ]]; then
   remove_path "$PACK_DIR"
+fi
+if [[ -d "$LAZY_ROOT" ]] && [[ -z "$(ls -A "$LAZY_ROOT" 2>/dev/null || true)" ]]; then
+  remove_path "$LAZY_ROOT"
 fi
 
 printf 'Done.\n'

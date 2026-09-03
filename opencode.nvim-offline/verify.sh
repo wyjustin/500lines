@@ -71,6 +71,25 @@ pass "install.sh --prefix"
   || fail "install.sh --with-snacks did not write snacks"
 pass "install.sh --with-snacks"
 
+xdg="$tmp/xdg-lazy"
+mkdir -p "$xdg"
+XDG_DATA_HOME="$xdg" ./install.sh --for-lazy >/dev/null
+[[ -f "$xdg/nvim/offline-plugins/opencode.nvim/lua/opencode.lua" ]] \
+  || fail "--for-lazy did not write plugin"
+[[ ! -e "$xdg/nvim/site/pack/offline/start/opencode.nvim" ]] \
+  || fail "--for-lazy wrote packpath start (would double-load with lazy)"
+pass "install.sh --for-lazy"
+
+XDG_DATA_HOME="$xdg" ./install.sh --for-lazy --with-snacks >/dev/null
+[[ -f "$xdg/nvim/offline-plugins/snacks.nvim/plugin/snacks.lua" ]] \
+  || fail "--for-lazy --with-snacks did not write snacks"
+pass "install.sh --for-lazy --with-snacks"
+
+XDG_DATA_HOME="$xdg" ./uninstall.sh >/dev/null
+[[ ! -e "$xdg/nvim/offline-plugins/opencode.nvim" ]] || fail "uninstall left lazy plugin"
+[[ ! -e "$xdg/nvim/offline-plugins/snacks.nvim" ]] || fail "uninstall left lazy snacks"
+pass "uninstall.sh --for-lazy"
+
 ./uninstall.sh --prefix "$prefix" >/dev/null
 [[ ! -e "$prefix/pack/offline/start/opencode.nvim" ]] || fail "uninstall left plugin"
 [[ ! -e "$prefix/pack/offline/start/snacks.nvim" ]] || fail "uninstall left snacks"
