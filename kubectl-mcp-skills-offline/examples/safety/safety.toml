@@ -1,0 +1,15 @@
+# Example safety policy for operators (documentation only).
+# kubectl-mcp-server CLI flags take precedence:
+#   --read-only
+#   --disable-destructive
+#
+# Pair with overlay skill k8s-safety. Skills cannot replace RBAC.
+
+[safety]
+# normal | confirm | read_only | disable_destructive
+mode = "read_only"
+
+[safety.notes]
+investigate = "Use read_only for OOMKilled / CrashLoopBackOff / rollout diffs"
+deploy = "Use disable_destructive for apply/scale/helm upgrade"
+break_glass = "normal still requires k8s-safety confirmation on deletes"

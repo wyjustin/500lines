@@ -1,0 +1,26 @@
+Third-party notices for the kubectl-mcp-skills-offline package
+==============================================================
+
+This directory redistributes a snapshot of upstream Kubernetes Agent Skills
+so they can be installed without GitHub access. All copyright remains with
+the original authors. This package is a skill wrapper, not a fork of the
+MCP server.
+
+1) kubectl-mcp-server (kubernetes-skills/ snapshot)
+   https://github.com/rohitg00/kubectl-mcp-server
+   Copyright (c) 2024 Rohit Ghumare
+   License: MIT (repository LICENSE)
+   Skill frontmatter additionally states Apache-2.0 for individual SKILL.md files.
+   Full text: vendor/LICENSE.kubectl-mcp-server
+   Contents: vendor/kubernetes-skills/
+
+2) kubectl-mcp-server safety.py (reference copy)
+   Same project and license as (1).
+   Contents: vendor/safety/safety.py
+   Used only as documentation of server-side safety modes.
+   This package does not ship or start the MCP server.
+
+3) k8s-safety overlay (this package)
+   Original documentation/scripts in overlay/k8s-safety/
+   License: Apache-2.0 (same as upstream skill frontmatter)
+   Intended to be used together with the skills in (1).

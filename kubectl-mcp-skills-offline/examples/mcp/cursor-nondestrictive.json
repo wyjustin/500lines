@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "kubectl": {
+      "command": "kubectl-mcp-server",
+      "args": ["serve", "--disable-destructive"]
+    }
+  }
+}

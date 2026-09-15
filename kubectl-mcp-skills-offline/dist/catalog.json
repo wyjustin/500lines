@@ -1,0 +1,89 @@
+{
+  "package": "kubectl-mcp-skills-offline",
+  "version": "1.0.0",
+  "target": {
+    "os": "Kylin Linux Advanced Server V10 SP3",
+    "arch": "x86_64",
+    "note": "Skills are architecture-independent Markdown; installer is bash for this OS."
+  },
+  "upstream": {
+    "name": "kubectl-mcp-server",
+    "url": "https://github.com/rohitg00/kubectl-mcp-server",
+    "commit": "14f9c138a7efd80a2bbb83e7ecfcdbe259f6e598",
+    "date": "2026-04-08",
+    "path": "kubernetes-skills/claude"
+  },
+  "spec": "https://agentskills.io/specification",
+  "form": "agent-skills-wrapper",
+  "not_a_new_server": true,
+  "skill_count": 25,
+  "categories": [
+    {
+      "id": "core",
+      "title": "Core Resources",
+      "skills": ["k8s-core", "k8s-networking", "k8s-storage"]
+    },
+    {
+      "id": "workload",
+      "title": "Workloads",
+      "skills": ["k8s-deploy", "k8s-operations", "k8s-helm"]
+    },
+    {
+      "id": "observability",
+      "title": "Observability",
+      "skills": ["k8s-diagnostics", "k8s-troubleshoot", "k8s-incident"]
+    },
+    {
+      "id": "security",
+      "title": "Security",
+      "skills": ["k8s-security", "k8s-policy", "k8s-certs"]
+    },
+    {
+      "id": "gitops",
+      "title": "GitOps",
+      "skills": ["k8s-gitops", "k8s-rollouts"]
+    },
+    {
+      "id": "scaling",
+      "title": "Scaling / Cost / Backup",
+      "skills": ["k8s-autoscaling", "k8s-cost", "k8s-backup"]
+    },
+    {
+      "id": "multi-cluster",
+      "title": "Multi-Cluster",
+      "skills": ["k8s-multicluster", "k8s-capi", "k8s-kubevirt", "k8s-vind"]
+    },
+    {
+      "id": "networking",
+      "title": "Service Mesh / CNI",
+      "skills": ["k8s-service-mesh", "k8s-cilium"]
+    },
+    {
+      "id": "tools",
+      "title": "Tools",
+      "skills": ["k8s-browser", "k8s-cli"]
+    }
+  ],
+  "optional": [
+    {
+      "id": "k8s-kind",
+      "title": "kind local clusters",
+      "category": "development",
+      "reason": "Present in upstream main (26th skill); not part of the advertised 25-skill catalog."
+    }
+  ],
+  "overlay": [
+    {
+      "id": "k8s-safety",
+      "title": "Safety modes + SRE judgment",
+      "category": "safety",
+      "install_by_default": true
+    }
+  ],
+  "agents": {
+    "claude-code": ["~/.claude/skills", ".claude/skills"],
+    "cursor": ["~/.cursor/skills", "~/.agents/skills", ".cursor/skills", ".agents/skills"],
+    "opencode": ["~/.config/opencode/skills", ".opencode/skills"],
+    "compat": "Claude / Cursor / OpenCode all consume Agent Skills SKILL.md. 200+ MCP clients talk to kubectl-mcp-server; skills teach judgment, they do not expose extra kubectl verbs."
+  }
+}
