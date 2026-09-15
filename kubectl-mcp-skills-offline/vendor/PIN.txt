@@ -1,0 +1,4 @@
+upstream: https://github.com/rohitg00/kubectl-mcp-server
+ref: 14f9c138a7efd80a2bbb83e7ecfcdbe259f6e598
+date: 2026-04-08T23:37:48+01:00
+path: kubernetes-skills/

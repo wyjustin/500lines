@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "kubectl": {
+      "type": "local",
+      "command": ["kubectl-mcp-server", "serve", "--read-only"],
+      "enabled": true
+    }
+  }
+}

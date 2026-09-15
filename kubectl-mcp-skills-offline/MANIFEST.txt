@@ -1,0 +1,55 @@
+kubectl-mcp-server 25 Agent Skills 离线安装包清单
+================================================
+
+Package:     kubectl-mcp-skills-offline
+Version:     1.0.0
+Built:       2026-09-15
+Target:      Kylin Linux Advanced Server V10 SP3 / x86_64
+Purpose:     Air-gapped install of Kubernetes Agent Skills (skill wrapper,
+             not a new MCP server)
+
+Upstream skills
+---------------
+Name:        kubectl-mcp-server / kubernetes-skills
+URL:         https://github.com/rohitg00/kubectl-mcp-server
+Commit:      14f9c138a7efd80a2bbb83e7ecfcdbe259f6e598
+Date:        2026-04-08
+License:     MIT (repo) / Apache-2.0 (SKILL.md frontmatter)
+Contents:    vendor/kubernetes-skills
+Archive:     dist/kubernetes-skills.tar.gz
+Skill count: 26 directories upstream; default install = advertised 25
+             (k8s-kind is optional)
+
+Overlay (this package)
+----------------------
+Name:        k8s-safety
+Purpose:     Safety modes (read-only / non-destructive / intercept) and
+             SRE judgment (OOMKilled, CrashLoopBackOff, ReplicaSet diff)
+Archive:     dist/k8s-safety-overlay.tar.gz
+
+Nine categories (25 skills)
+---------------------------
+core            k8s-core k8s-networking k8s-storage
+workload        k8s-deploy k8s-operations k8s-helm
+observability   k8s-diagnostics k8s-troubleshoot k8s-incident
+security        k8s-security k8s-policy k8s-certs
+gitops          k8s-gitops k8s-rollouts
+scaling         k8s-autoscaling k8s-cost k8s-backup
+multi-cluster   k8s-multicluster k8s-capi k8s-kubevirt k8s-vind
+networking      k8s-service-mesh k8s-cilium
+tools           k8s-browser k8s-cli
+
+Agents
+------
+Claude Code     ~/.claude/skills  and  .claude/skills
+Cursor          ~/.cursor/skills  ~/.agents/skills  .cursor/skills  .agents/skills
+OpenCode        ~/.config/opencode/skills  .opencode/skills
+
+Not bundled (install separately on the target host)
+---------------------------------------------------
+- kubectl-mcp-server  (pip/wheel; use serve --read-only)
+- Claude Code / Cursor / OpenCode
+- A kubeconfig with least-privilege RBAC
+
+Checksums: dist/checksums.sha256
+Full USB image: dist/kubectl-mcp-skills-offline-kylin-v10-sp3-x64.tar.gz
